@@ -45,6 +45,8 @@ let initRanklist = () => {
       let ranking = createEle('span', {class: 'ranking', textContent: list[i].rank});
       let rankKwd = createEle('a', {class: 'rank-keyword', textContent: list[i].keyword});
 
+      if(list[i].rank == 'new') {ranking.classList.add('new')};
+
       rankKwd.dataset.rank = list[i].rank;
       rankKwd.href = 'javascript:;';
 
@@ -57,7 +59,7 @@ let initRanklist = () => {
 
 let obj = {
   count: 1,
-  rank: 1
+  rank: 'new'
 }
 
 const form = document.querySelector('#searchForm');

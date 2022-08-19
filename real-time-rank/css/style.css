@@ -72,3 +72,8 @@ ul, dl {
     margin-top: -20px;
     transition: 0.7s;
 }
+
+.new {
+    font-weight: 700;
+    color: red;
+}
