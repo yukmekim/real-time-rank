@@ -10,14 +10,27 @@ ul, dl {
 }
 
 #content {
+    width: 400px;
     margin: 20px;
     padding: 10px;
-    background: #393;
+    background: #aaaeaa;
+}
+
+#searchForm {
+    margin: 20px;
+}
+
+#searchForm input#sch_keyword {
+    width: 364px;
 }
 
 #rank-list a {
     color: #FFF;
     text-decoration: none;
+}
+
+#rank > li > span.ranking {
+    margin-right: 10px;
 }
 
 #rank-list a:hover {
@@ -53,4 +66,9 @@ ul, dl {
     height: 20px;
     line-height: 20px;
     color: #FFF;
+}
+
+.move {
+    margin-top: -20px;
+    transition: 0.7s;
 }

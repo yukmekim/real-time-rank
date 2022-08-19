@@ -21,8 +21,9 @@ const createEle = (ele, attr) => {
     return element;
 }
 
+const rank = document.querySelector('#rank');
+
 let initRanklist = () => {
-  const rank = document.querySelector('#rank');
 
   let list = [];
 
@@ -40,8 +41,15 @@ let initRanklist = () => {
   })
 
   for(let i in list) {
-      let rankList = createEle('li', {textContent: list[i].keyword})
+      let rankList = createEle('li')
+      let ranking = createEle('span', {class: 'ranking', textContent: list[i].rank});
+      let rankKwd = createEle('a', {class: 'rank-keyword', textContent: list[i].keyword});
 
+      rankKwd.dataset.rank = list[i].rank;
+      rankKwd.href = 'javascript:;';
+
+      rankList.append(ranking);
+      rankList.append(rankKwd);
       rank.append(rankList)
   }
 
@@ -112,51 +120,64 @@ let changeRank = () => {
 
   }
 
+  document.querySelectorAll('#rank > li > #rank-keyword').forEach(el => {
+    for(let i in list) {
+      if(el.dataset.rank == list[i].rank) {
+        el.textContent = list[i].keyword;
+      }
+    }
+  })
+
 }
-
-let move = (index) => {
-  let count = document.querySelectorAll('#rank-list li').length;
-  let height = document.querySelector('#rank-list li').clientHeight;
-
-  document.querySelector('#rank-list ol').animate({
-       top: -height * index + 'px',
-      }, {
-        duration: 500
-      });
-  }
 
 // let move = (index) => {
 //   let count = document.querySelectorAll('#rank-list li').length;
 //   let height = document.querySelector('#rank-list li').clientHeight;
-      
-//   step(index);
-// };
 
-let change1 = () => new Promise ((resolve, reject) => {
+//   document.querySelector('#rank-list ol').animate({
+//        top: -height * index + 'px',
+//       }, {
+//         duration: 500
+//       });
+// }
+
+let change = () => new Promise ((resolve, reject) => { 
   let first = document.querySelector('#rank li:first-child');
-  let rank = document.querySelector('#rank');
-
-  first.animate(
-    {
-      marginTop : '-20px'
-    }, 500
-  );
 
   resolve(first);
+
 })
 
+// let change = () => new Promise ((resolve, reject) => {
+//   let first = document.querySelector('#rank li:first-child');
+//   let rank = document.querySelector('#rank');
+
+//   first.animate(
+//     {
+//       marginTop : '-20px'
+//     }, 500
+//   );
+
+//   resolve(first);
+// })
+
 let ticker = () => {
+  let first = document.querySelector('#rank li:first-child');
+
+  first.classList.add('move');
+
   timer = setTimeout(() => {
 
-    change1().then( (first) => {
+    change().then( (first) => {
 
+      first.classList.remove('move');
       first.remove();
       rank.append(first);
 
       ticker();
     })
 
-  }, 2000)
+  }, 3000)
 }
 
 let tickerover = () => {
@@ -175,24 +196,15 @@ document.querySelector('#clear').onclick = () => {
 window.onload = () => {
   initRanklist();
 
-  tickerover();
+  if(rank.childElementCount > 0) {
+    ticker();
 
-//    ticker();
+    tickerover();
+  } 
 
-  //let itv = 1;
-  //let rank = document.querySelectorAll('#rank li').length;
+  setInterval( () => {
 
-  //console.log(rank);
+    changeRank();
 
-  //setInterval(function() {
-    //if(itv > rank) {
-      //itv = 1;
-    //}
-    //console.log(itv);
-
-    //move(itv);
-
-    //itv++;
-    //changeRank();
-  //}, 3000);
+  }, 5000);
 }
